@@ -52,7 +52,7 @@ module RawInsert
         Rails.logger.info "Res.error_messages:#{res.error_message}"
         Rails.logger.info "Res.result_error_message:#{res.result_error_message}"
       else
-        Rails.logger.info "Raw insert success"
+        Rails.logger.info "RawInsert success!"
       end
     end # very important to do this after a copy
     ActiveRecord::Base.connection_pool.checkin(conn)
