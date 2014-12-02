@@ -1,6 +1,6 @@
 # RawInsert
 
-TODO: Write a gem description
+Takes an enum of models, dynamically creates a raw insert sql statement to shove that data into your Postgres database. Simple.
 
 ## Installation
 
