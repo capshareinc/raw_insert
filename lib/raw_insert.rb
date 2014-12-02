@@ -2,12 +2,22 @@ require "raw_insert/version"
 
 module RawInsert
   def raw_insert(enum)
+    return if empty? enum
     table_definition_hash = define_table_structure enum.first
     insert_lines = create_insert_lines enum, table_definition_hash
     execute_copy_from_on insert_lines, table_definition_hash
   end
 
   private
+  def empty?(enum)
+    if enum.first.nil?
+      Rails.logger.info "RawInsert aborted. Nothing to insert."
+      return true
+    else
+      return false
+    end
+  end
+
   def define_table_structure(model)
     table_structure = {}
     klass = model.class
