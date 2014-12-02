@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = RawInsert::VERSION
   spec.authors       = ["paulbaker3"]
   spec.email         = ["paul.baker.3@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Got lots of data? Raw insert it!}
+  spec.description   = %q{Ruby gem to dynamically insert ruby models via raw insert statement.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
