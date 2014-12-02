@@ -20,7 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Add this to your class:
+```
+include RawInsert
+```
+
+Call the raw_insert method whenever you need to jam in teh dataz. Pass in an enumerable collection of models.
+```
+raw_insert(my_models_to_insert)
+```
+
+Enjoy!
 
 ## Contributing
 
