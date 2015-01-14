@@ -33,7 +33,11 @@ module RawInsert
     str = ""
     enum.each do |ra|
       keys.each_with_index do |k,i|
-        str += "#{ra[k]}"
+        if ['created_at', 'updated_at'].include? k
+          str += "#{Time.now}"
+        else
+          str += "#{ra[k]}"
+        end
         str += "\t" unless i == (keys.length - 1)
       end
       str += "\n"
