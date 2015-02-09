@@ -25,9 +25,16 @@ Add this to your class:
 include RawInsert
 ```
 
-Call the raw_insert method whenever you need to jam in teh dataz. Pass in an enumerable collection of models.
+Call the raw_insert method whenever you need to jam in teh dataz. Pass in an enumerable collection of models or a single instance of a model.
 ```
 raw_insert(my_models_to_insert)
+```
+
+RawInsert will not attempt to insert the `id` column. If there are columns that should not be mass assigned, you can ignore them by passing a optional array:
+```
+raw_insert(my_models_to_insert, ignored_columns: ['column_name'])
+#OR
+raw_insert(my_models_to_insert, ignored_columns: [:column_name])
 ```
 
 Enjoy!

@@ -1,9 +1,10 @@
 require "raw_insert/version"
 
 module RawInsert
-  def raw_insert(enum)
+  def raw_insert(enum, opts={})
     return if empty? enum
-    table_definition_hash = define_table_structure enum.first
+    enum = [enum] unless iterable?(enum)
+    table_definition_hash = define_table_structure enum.first, opts[:ignored_columns]
     insert_lines = create_insert_lines enum, table_definition_hash
     execute_copy_from_on insert_lines, table_definition_hash
   end
@@ -18,12 +19,18 @@ module RawInsert
     end
   end
 
-  def define_table_structure(model)
+  def define_table_structure(model, ignored_columns=[])
     table_structure = {}
     klass = model.class
     table_structure[:table_name] = klass.table_name
-    table_structure[:columns] = klass.new.attributes.keys - klass.protected_attributes.to_a
+    table_structure[:columns] = column_definitions klass, ignored_columns
     return table_structure
+  end
+
+  def column_definitions(klass, ignored_columns)
+    raise ArgumentError.new(":ignored_columns must be an array") unless ignored_columns.is_a? Array
+    cols_to_remove = ['id'] + ignored_columns.map(&:to_s)
+    klass.column_names - cols_to_remove
   end
 
   def create_insert_lines(enum, table_structure)
@@ -71,5 +78,9 @@ module RawInsert
     end # very important to do this after a copy
     ActiveRecord::Base.connection_pool.checkin(conn)
     Rails.logger.info @errmsg
+  end
+
+  def iterable?(object)
+    object.respond_to? :each
   end
 end
