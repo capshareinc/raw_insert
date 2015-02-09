@@ -28,6 +28,7 @@ module RawInsert
   end
 
   def column_definitions(klass, ignored_columns)
+    ignored_columns ||= []
     raise ArgumentError.new(":ignored_columns must be an array") unless ignored_columns.is_a? Array
     cols_to_remove = ['id'] + ignored_columns.map(&:to_s)
     klass.column_names - cols_to_remove
