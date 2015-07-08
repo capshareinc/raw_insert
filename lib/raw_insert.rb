@@ -56,7 +56,7 @@ module RawInsert
   end
 
   def execute_copy_from_on(insert_lines, table_structure)
-    conn = ActiveRecord::Base.connection_pool.checkout
+    conn = ActiveRecord::Base.connection
     raw  = conn.raw_connection
     raw.exec("COPY #{table_structure[:table_name]} (#{table_structure[:columns].join(', ')}) FROM STDIN WITH NULL AS ''")
     insert_lines.each do |line|
@@ -77,7 +77,6 @@ module RawInsert
         Rails.logger.info "RawInsert success!"
       end
     end # very important to do this after a copy
-    ActiveRecord::Base.connection_pool.checkin(conn)
     Rails.logger.info @errmsg
   end
 
