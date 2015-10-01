@@ -58,7 +58,7 @@ module RawInsert
   def execute_copy_from_on(insert_lines, table_structure)
     conn = ActiveRecord::Base.connection
     raw  = conn.raw_connection
-    raw.exec("COPY #{table_structure[:table_name]} (#{table_structure[:columns].join(', ')}) FROM STDIN WITH NULL AS ''")
+    raw.exec("COPY #{table_structure[:table_name]} (#{table_structure[:columns].map { |k| "\"#{k}\"" }.join(', ')}) FROM STDIN WITH NULL AS ''")
     insert_lines.each do |line|
       raw.put_copy_data line
     end
