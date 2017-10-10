@@ -12,7 +12,7 @@ module RawInsert
   private
   def empty?(enum)
     if enum.first.nil?
-      Rails.logger.info "RawInsert aborted. Nothing to insert."
+      Rails.logger.debug "RawInsert aborted. Nothing to insert."
       return true
     else
       return false
@@ -69,15 +69,15 @@ module RawInsert
       if (res.result_status != 1)
         error = true
         @errmsg = @errmsg + "Result of COPY is: %s" % [ res.res_status(res.result_status) ]
-        Rails.logger.info "Res:#{res.class}"
-        Rails.logger.info "Res.result_status:#{res.result_status.class}"
-        Rails.logger.info "Res.error_messages:#{res.error_message}"
-        Rails.logger.info "Res.result_error_message:#{res.result_error_message}"
+        Rails.logger.error "Res:#{res.class}"
+        Rails.logger.error "Res.result_status:#{res.result_status.class}"
+        Rails.logger.error "Res.error_messages:#{res.error_message}"
+        Rails.logger.error "Res.result_error_message:#{res.result_error_message}"
       else
-        Rails.logger.info "RawInsert success!"
+        Rails.logger.debug "RawInsert success!"
       end
     end # very important to do this after a copy
-    Rails.logger.info @errmsg
+    Rails.logger.debug @errmsg
   end
 
   def iterable?(object)
